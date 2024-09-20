@@ -321,12 +321,13 @@ async function runDatabaseMigrations(dbName: string) {
 
     const localMigrationSpinner = spinner();
     localMigrationSpinner.start("Running local database migrations...");
-    executeCommand(`bunx wrangler d1 migrations apply ${dbName}`);
+    executeCommand(`bunx wrangler d1 execute ${dbName} --local --file=./drizzle/0000_setup.sql`);
+
     localMigrationSpinner.stop("Local database migrations completed.");
 
     const remoteMigrationSpinner = spinner();
     remoteMigrationSpinner.start("Running remote database migrations...");
-    executeCommand(`bunx wrangler d1 migrations apply ${dbName} --remote`);
+    executeCommand(`bunx wrangler d1 execute ${dbName} --remote --file=./drizzle/0000_setup.sql`);
     remoteMigrationSpinner.stop("Remote database migrations completed.");
 }
 
